@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: pyaarkameter
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: OWNER_CHAT_ID
+        value: "7341356155"

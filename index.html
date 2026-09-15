@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Match Meter ❤️</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{background:#0e0813;color:#fff;overflow-x:hidden}.app{min-height:100vh;background:radial-gradient(circle at 50% -10%,#ff4f8b55,transparent 38%),linear-gradient(180deg,#1c0b20,#09070d)}
+.bg-heart{position:fixed;opacity:.07;font-size:120px;animation:float 8s infinite ease-in-out;pointer-events:none}.h1{left:-20px;top:25%;}.h2{right:-25px;top:55%;animation-delay:2s}.h3{left:20%;bottom:-30px;font-size:90px;animation-delay:4s}
+@keyframes float{50%{transform:translateY(-25px) rotate(8deg)}}
+.wrap{width:min(560px,100%);margin:auto;padding:18px 15px 34px}.top{text-align:center;padding:10px 0 15px}.logo{font-size:54px;filter:drop-shadow(0 0 18px #ff397a)}h1{font-size:32px;margin:2px 0 5px;letter-spacing:-1px}.sub{color:#cbbbc8;font-size:14px}
+.card{background:#ffffff0d;border:1px solid #ffffff18;border-radius:28px;padding:16px;backdrop-filter:blur(18px);box-shadow:0 20px 60px #0008}
+.section-title{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:#bfaeba;margin:3px 4px 10px}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:9px}.mode{border:1px solid #ffffff16;background:#ffffff08;border-radius:18px;padding:12px 8px;text-align:center;cursor:pointer;transition:.2s}.mode.active{background:linear-gradient(135deg,#ff3d7c,#b92cff);border-color:#ff6b9a;transform:translateY(-1px);box-shadow:0 8px 22px #ff3d7c33}.emoji{font-size:24px}.mode b{display:block;font-size:13px;margin-top:3px}.mode small{display:block;color:#cdbec9;font-size:10px;margin-top:2px}.mode.active small{color:#fff9}
+label{font-size:12px;color:#cbbbc8;display:block;margin:14px 3px 6px}input{width:100%;border:1px solid #ffffff18;background:#09070d;color:#fff;border-radius:16px;padding:15px;font-size:16px;outline:none}input:focus{border-color:#ff4d88;box-shadow:0 0 0 3px #ff4d8818}
+.check{display:flex;gap:8px;align-items:flex-start;margin:12px 3px 0;color:#aa9ca8;font-size:10px;line-height:1.4}.check input{width:15px;height:15px;margin:0;accent-color:#ff3d7c}
+.cta{width:100%;border:0;border-radius:18px;padding:16px;margin-top:14px;color:#fff;font-size:16px;font-weight:900;background:linear-gradient(100deg,#ff3d7c,#c42bff);box-shadow:0 12px 28px #ff3d7c35;cursor:pointer}.cta:active{transform:scale(.98)}
+.result{display:none;text-align:center;margin-top:15px;border-radius:24px;padding:20px;background:linear-gradient(145deg,#ff3d7c1c,#a72cff1c);border:1px solid #ff6c9b30}.result.show{display:block;animation:pop .5s ease}@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.result .mini{color:#cdbec9;font-size:12px}.score{font-size:70px;line-height:1;font-weight:1000;margin:7px 0;color:#ff78a7;text-shadow:0 0 30px #ff397a66}.bar{height:9px;background:#ffffff12;border-radius:99px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,#ff3d7c,#d13cff);border-radius:99px;transition:width 1.5s cubic-bezier(.2,.8,.2,1)}.msg{font-size:18px;font-weight:800;margin:14px 0 4px}.detail{font-size:12px;color:#bfb1bc}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.secondary{background:#ffffff10;box-shadow:none;border:1px solid #ffffff18}
+.age{font-size:9px;color:#d5c6d1;text-align:center;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="bg-heart h1">♥</div><div class="bg-heart h2">♥</div><div class="bg-heart h3">♥</div>
+<main class="app"><div class="wrap">
+<header class="top"><div class="logo">💘</div><h1>Match Meter</h1><div class="sub">The internet's most dangerously fun compatibility test.</div></header>
+<section class="card">
+<div class="section-title">Choose your vibe</div>
+<div class="modes">
+<div class="mode active" data-mode="love"><span class="emoji">❤️</span><b>Love</b><small>Romantic chemistry</small></div>
+<div class="mode" data-mode="bestfriend"><span class="emoji">👯</span><b>Best Friend</b><small>Bestie energy</small></div>
+<div class="mode" data-mode="fwb"><span class="emoji">🔥</span><b>Friends with Benefits</b><small>18+ only</small></div>
+<div class="mode" data-mode="sex"><span class="emoji">💋</span><b>Sex</b><small>18+ only</small></div>
+<div class="mode" data-mode="living"><span class="emoji">🏠</span><b>Living Together</b><small>Life compatibility</small></div>
+<div class="mode" data-mode="timepass"><span class="emoji">😜</span><b>Timepass</b><small>Fun match</small></div>
+<div class="mode" data-mode="intimate"><span class="emoji">💫</span><b>Intimate</b><small>18+ only</small></div>
+</div>
+<label>Your name</label><input id="a" maxlength="40" placeholder="e.g. Alex" autocomplete="off">
+<label>Their name</label><input id="b" maxlength="40" placeholder="e.g. Sam" autocomplete="off">
+<label class="check"><input id="consent" type="checkbox"><span>I understand that the names, selected category and calculated score may be shared with the bot owner. No camera, microphone, contacts or precise location are requested.</span></label>
+<button class="cta" id="calc">REVEAL OUR SCORE 💘</button>
+<div class="result" id="result"><div class="mini" id="rtype">LOVE COMPATIBILITY</div><div class="score" id="score">0%</div><div class="bar"><div class="fill" id="fill"></div></div><div class="msg" id="msg"></div><div class="detail" id="detail"></div><div class="actions"><button class="cta secondary" id="again">TRY AGAIN</button><button class="cta" id="share">SHARE 💌</button></div></div>
+<div class="age">For fun only. Adult categories are intended for users 18+.</div>
+</section></div></main>
+<script>
+const tg=window.Telegram?.WebApp; tg?.ready(); tg?.expand();
+let mode="love";
+const names={love:"LOVE COMPATIBILITY",bestfriend:"BEST FRIEND COMPATIBILITY",fwb:"FRIENDS WITH BENEFITS",sex:"SEXUAL CHEMISTRY",living:"LIVING TOGETHER COMPATIBILITY",timepass:"TIMEPASS MATCH",intimate:"INTIMATE COMPATIBILITY"};
+const msgs={
+ love:[[90,"Soulmate alert! 💘"],[75,"Okay… this is getting serious. 😳"],[55,"There is definitely a spark! ✨"],[0,"The algorithm says: give it time. 😄"]],
+ bestfriend:[[90,"Bestie status unlocked! 🫶"],[75,"Friendship goals detected! 👯"],[55,"Pretty solid bestie potential! 😄"],[0,"You two need more adventures! ✨"]],
+ fwb:[[90,"The chemistry is LOUD. 🔥"],[75,"There is definitely tension! 😉"],[55,"Interesting chemistry detected. 😏"],[0,"Maybe start with getting to know each other."]],
+ sex:[[90,"The chemistry meter is off the charts! 🔥"],[75,"Very strong chemistry detected! 😏"],[55,"There is some serious spark here. ✨"],[0,"The meter is feeling shy today. 😄"]],
+ living:[[90,"You could actually live together! 🏠❤️"],[75,"Strong day-to-day compatibility! 🏡"],[55,"Could work with some compromise. 🙂"],[0,"Maybe try a weekend together first! 😄"]],
+ timepass:[[90,"Legendary timepass duo! 😂🔥"],[75,"You two would never get bored! 😜"],[55,"Perfect for random adventures! ✨"],[0,"Timepass potential detected. 😂"]],
+ intimate:[[90,"Whoa… serious chemistry detected! 🔥"],[75,"That spark is hard to ignore. 😉"],[55,"There may be some chemistry here. ✨"],[0,"The meter needs more data… 😏"]]
+};
+document.querySelectorAll(".mode").forEach(x=>x.onclick=()=>{mode=x.dataset.mode;document.querySelectorAll(".mode").forEach(y=>y.classList.remove("active"));x.classList.add("active")});
+function scoreFor(a,b,m){let s=[a.trim().toLowerCase(),b.trim().toLowerCase(),m].sort().join("|"),h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return 50+Math.abs(h%51)}
+function getMsg(n){for(const x of msgs[mode])if(n>=x[0])return x[1]}
+function calculate(){const a=document.getElementById("a").value.trim(),b=document.getElementById("b").value.trim();if(!a||!b){tg?.showAlert?.("Enter both names first ❤️");return}if(!document.getElementById("consent").checked){tg?.showAlert?.("Please confirm the sharing notice to continue.");return}const n=scoreFor(a,b,mode);document.getElementById("rtype").textContent=names[mode];document.getElementById("score").textContent="0%";document.getElementById("msg").textContent="Calculating…";document.getElementById("detail").textContent=a+" × "+b;document.getElementById("fill").style.width="0";document.getElementById("result").classList.add("show");setTimeout(()=>{document.getElementById("score").textContent=n+"%";document.getElementById("fill").style.width=n+"%";document.getElementById("msg").textContent=getMsg(n)},650);try{tg?.sendData(JSON.stringify({name:a,their_name:b,mode,score:n}))}catch(e){}}
+document.getElementById("calc").onclick=calculate;
+document.getElementById("again").onclick=()=>{document.getElementById("result").classList.remove("show");document.getElementById("a").focus()};
+document.getElementById("share").onclick=()=>{const text=encodeURIComponent("💘 I got a Match Meter result! Try yours ❤️");const url="https://t.me/share/url?text="+text;try{tg?.openTelegramLink(url)}catch(e){location.href=url}};
+</script>
+</body></html>
