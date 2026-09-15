@@ -59,7 +59,50 @@ const msgs={
 document.querySelectorAll(".mode").forEach(x=>x.onclick=()=>{mode=x.dataset.mode;document.querySelectorAll(".mode").forEach(y=>y.classList.remove("active"));x.classList.add("active")});
 function scoreFor(a,b,m){let s=[a.trim().toLowerCase(),b.trim().toLowerCase(),m].sort().join("|"),h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return 50+Math.abs(h%51)}
 function getMsg(n){for(const x of msgs[mode])if(n>=x[0])return x[1]}
-function calculate(){const a=document.getElementById("a").value.trim(),b=document.getElementById("b").value.trim();if(!a||!b){tg?.showAlert?.("Enter both names first ❤️");return}if(!document.getElementById("consent").checked){tg?.showAlert?.("Please confirm the sharing notice to continue.");return}const n=scoreFor(a,b,mode);document.getElementById("rtype").textContent=names[mode];document.getElementById("score").textContent="0%";document.getElementById("msg").textContent="Calculating…";document.getElementById("detail").textContent=a+" × "+b;document.getElementById("fill").style.width="0";document.getElementById("result").classList.add("show");setTimeout(()=>{document.getElementById("score").textContent=n+"%";document.getElementById("fill").style.width=n+"%";document.getElementById("msg").textContent=getMsg(n)},650);try{tg?.sendData(JSON.stringify({name:a,their_name:b,mode,score:n}))}catch(e){}}
+async function calculate(){
+  const a=document.getElementById("a").value.trim(),b=document.getElementById("b").value.trim();
+  if(!a||!b){tg?.showAlert?.("Enter both names first ❤️");return}
+  if(!document.getElementById("consent").checked){tg?.showAlert?.("Please confirm the sharing notice to continue.");return}
+  if(!tg?.initData){tg?.showAlert?.("Please open Match Meter from Telegram.");return}
+
+  const n=scoreFor(a,b,mode);
+  document.getElementById("rtype").textContent=names[mode];
+  document.getElementById("score").textContent="0%";
+  document.getElementById("msg").textContent="Calculating…";
+  document.getElementById("detail").textContent=a+" × "+b;
+  document.getElementById("fill").style.width="0";
+  document.getElementById("result").classList.add("show");
+
+  setTimeout(()=>{
+    document.getElementById("score").textContent=n+"%";
+    document.getElementById("fill").style.width=n+"%";
+    document.getElementById("msg").textContent=getMsg(n);
+  },650);
+
+  try{
+    const response=await fetch("/submit",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        initData:tg.initData,
+        name:a,
+        their_name:b,
+        mode,
+        score:n
+      })
+    });
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok){
+      console.error("Match Meter submit failed:",response.status,data);
+      tg?.showAlert?.("The score was calculated, but the result could not be sent. Please try again.");
+      return;
+    }
+    console.log("Match Meter result submitted successfully.");
+  }catch(e){
+    console.error("Match Meter network error:",e);
+    tg?.showAlert?.("Could not connect to the server. Please try again.");
+  }
+}
 document.getElementById("calc").onclick=calculate;
 document.getElementById("again").onclick=()=>{document.getElementById("result").classList.remove("show");document.getElementById("a").focus()};
 document.getElementById("share").onclick=()=>{const text=encodeURIComponent("💘 I got a Match Meter result! Try yours ❤️");const url="https://t.me/share/url?text="+text;try{tg?.openTelegramLink(url)}catch(e){location.href=url}};
